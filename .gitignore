@@ -5,6 +5,11 @@
 /.pnp
 .pnp.js
 
+# 가라 API
+/pages/api
+
+/api.http
+
 # testing
 /coverage
 
