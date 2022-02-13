@@ -1,17 +1,20 @@
 export type GroupData = {
-    data: {
+    groups: {
       id: number;
       name: string;
-      status: string;
       maximumMember: number;
       currentMember: number;
-      userId: number;
       thumbnailImageUrl: string;
       createdAt: string;
+      isPrivate: boolean;
+      isAvailable: boolean;
+      isEnrolled: boolean;
       updatedAt: string;
       daysLeft: number;
+      runningWeeks: number;
+      tags: string[];
     }[],
-    count: number;
+    numGroups: number;
     nextPage: number;
   };
   

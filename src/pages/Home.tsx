@@ -13,70 +13,69 @@ import { NavigationBar } from "components/ui/NavigationBar";
 const defaultTags = ['생산성','태그','암거나'];
 
 export default function IndexPage() {
-    const { data: groupData } = useGroupData();
-    const { data: totalGroupData, fetchNextPage } = useTotalGroupData();
+  const { data: groupData } = useGroupData();
+  const { data: totalGroupData, fetchNextPage } = useTotalGroupData();
 
-    if (groupData == null || totalGroupData == null) {
-        return null;
-    }
-
-    return (
-        <ErrorBoundary
-            fallbackRender={({ error }) => (
-              <div>
+  if (groupData == null || totalGroupData == null) {
+    return null;
+  }
+  return (
+    <ErrorBoundary
+      fallbackRender={({ error }) => (
+        <div>
                 There was an error! {error}
-              </div>
-            )}
-          >
-              <NavigationBar />
-              <Container>
-              <Header marginTop={72}>내 그룹({groupData.count})</Header>
-                <GroupList>
-                    {groupData.data.map(group => (
-                    <GroupListItem
-                        key={group.id}
-                        imageSrc={group.thumbnailImageUrl} 
-                        top={group.name}
-                        content={defaultTags.map(tag => (
-                            <TagItem key={tag}>#{tag}</TagItem>
-                        ))}
-                        bottom={
-                            <>
-                            <Text><Icon iconName={'user'} />{group.currentMember}/{group.maximumMember}</Text>
-                            <Text><Icon iconName={'calander'} />1주</Text>
-                            {group.daysLeft === 0 
-                            ? <Text>진행중</Text>
-                            : <Text color={colors.grey300}>{`시작까지 ${group.daysLeft}일 남음`}</Text>  
-                            }
-                            </>
-                        } />
-                ))}
-                </GroupList>
-              <Header>추천 그룹</Header>
-                <GroupList>
-                    {totalGroupData.map(group => (
-                    <GroupListItem 
-                        key={group.id} 
-                        imageSrc={group.thumbnailImageUrl} 
-                        top={group.name} 
-                        content={defaultTags.map(tag => (
-                            <TagItem key={tag}>#{tag}</TagItem>
-                        ))}
-                        bottom={(
-                            <>
-                                <Text><Icon iconName={'user'} />{group.currentMember}/{group.maximumMember}</Text>
-                                <Text><Icon iconName={'calander'} />1주</Text>
-                                {group.daysLeft === 0 
-                                ? <Text>진행중</Text>
-                                : <Text color={colors.grey300}>{`시작까지 ${group.daysLeft}일 남음`}</Text>  
-                                }
-                            </>
-                        )} />
-                ))}
-                </GroupList>
-              </Container>
-          </ErrorBoundary>
-    )
+        </div>
+      )}
+    >
+      <NavigationBar />
+      <Container>
+        <Header marginTop={72}>내 그룹({groupData.count})</Header>
+        <GroupList>
+          {groupData.groups.map(group => (
+            <GroupListItem
+              key={group.id}
+              imageSrc={group.thumbnailImageUrl} 
+              top={group.name}
+              content={defaultTags.map(tag => (
+                <TagItem key={tag}>#{tag}</TagItem>
+              ))}
+              bottom={
+                <>
+                  <Text><Icon iconName={'user'} />{group.currentMember}/{group.maximumMember}</Text>
+                  <Text><Icon iconName={'calander'} />1주</Text>
+                  {group.daysLeft === 0 
+                    ? <Text>진행중</Text>
+                    : <Text color={colors.grey300}>{`시작까지 ${group.daysLeft}일 남음`}</Text>  
+                  }
+                </>
+              } />
+          ))}
+        </GroupList>
+        <Header>추천 그룹</Header>
+        <GroupList>
+          {totalGroupData.map(group => (
+            <GroupListItem 
+              key={group.id} 
+              imageSrc={group.thumbnailImageUrl} 
+              top={group.name} 
+              content={defaultTags.map(tag => (
+                <TagItem key={tag}>#{tag}</TagItem>
+              ))}
+              bottom={(
+                <>
+                  <Text><Icon iconName={'user'} />{group.currentMember}/{group.maximumMember}</Text>
+                  <Text><Icon iconName={'calander'} />1주</Text>
+                  {group.daysLeft === 0 
+                    ? <Text>진행중</Text>
+                    : <Text color={colors.grey300}>{`시작까지 ${group.daysLeft}일 남음`}</Text>  
+                  }
+                </>
+              )} />
+          ))}
+        </GroupList>
+      </Container>
+    </ErrorBoundary>
+  )
 }
 
 const Container = styled.div`

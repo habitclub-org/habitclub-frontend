@@ -8,14 +8,14 @@ interface Props {
 }
 
 export const Icon = ({ iconName }: Props) => {
-    return (
-        <Paragraph>
-        {  iconName === 'calander' ? <Calandar />
+  return (
+    <Paragraph>
+      {  iconName === 'calander' ? <Calandar />
         : iconName === 'user' ? <User />
-        : null}
-        </Paragraph>
+          : null}
+    </Paragraph>
       
-    );
+  );
 }
 
 const Paragraph = styled.p`

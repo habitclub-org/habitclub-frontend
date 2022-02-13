@@ -12,7 +12,7 @@ export const useTotalGroupData = () => {
         getNextPageParam: (lastPage, allPages) => lastPage.nextPage,
       });
       const groupData = useMemo(() => {
-        return groupDataState.data?.pages.flatMap(page => page.data) ?? [];
+        return groupDataState.data?.pages.flatMap(page => page.groups) ?? [];
       }, [groupDataState.data?.pages]);
       return {
           data: groupData,
