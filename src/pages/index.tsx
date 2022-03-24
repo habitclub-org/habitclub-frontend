@@ -11,8 +11,6 @@ import { Icon } from "components/icons/Icon";
 import { ellipsisText } from "utils/http/ellipsisText";
 import { MAX_TITLE } from "../constants";
 
-const defaultTags = ['생산성','태그','암거나'];
-
 export default function IndexPage() {
   const { data: groupData } = useGroupData();
   const { data: totalGroupData, fetchNextPage } = useTotalGroupData();
@@ -39,8 +37,8 @@ export default function IndexPage() {
               imageSrc={group.thumbnailImageUrl} 
               isPrivate={group.isPrivate}
               top={ellipsisText(group.name, MAX_TITLE)}
-              content={defaultTags.map(tag => (
-                <TagItem key={tag}>#{tag}</TagItem>
+              content={group.tags.map(tag => (
+                <TagItem key={tag.id}>#{tag.name}</TagItem>
               ))}
               bottom={
                 <>
@@ -63,8 +61,8 @@ export default function IndexPage() {
               top={ellipsisText(group.name, MAX_TITLE)} 
               isPrivate={group.isPrivate}
               isAvailable={group.isAvailable}
-              content={defaultTags.map(tag => (
-                <TagItem key={tag}>#{tag}</TagItem>
+              content={group.tags.map(tag => (
+                <TagItem key={tag.id}>#{tag.name}</TagItem>
               ))}
               bottom={(
                 <>

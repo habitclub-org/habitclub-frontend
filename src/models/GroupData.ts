@@ -1,4 +1,4 @@
-export type GroupData = {
+export interface GroupData {
     groups: {
       id: number;
       name: string;
@@ -12,9 +12,20 @@ export type GroupData = {
       updatedAt: string;
       daysLeft: number;
       runningWeeks: number;
-      tags: string[];
-    }[],
+      tags: TagItem[];
+    }[];
     numGroups: number;
     nextPage: number;
   };
+
+  interface TagBase {
+    id: number;
+    name: string;
+  }
+
+  interface tagCategory extends TagBase {};
   
+export interface TagItem extends TagBase {
+    tagCategory: tagCategory;
+  }
+
