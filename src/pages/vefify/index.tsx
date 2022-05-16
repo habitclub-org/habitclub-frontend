@@ -9,7 +9,7 @@ import { MissionListItem } from "components/MissionListItem";
 import { Fragment } from "react";
 
 export default function IndexPage() {
-  const { data: missionList, fetchNextPage } = useMissionList();
+  const { data: missionList } = useMissionList();
 
   if (missionList == null) {
     return null;
@@ -32,7 +32,7 @@ export default function IndexPage() {
                 <MissionListItem 
                   key={missionItem.id} 
                   top={ellipsisText(missionItem.name, MAX_TITLE)} 
-                  isAvailable={missionItem.checkAvailability === 'available'}
+                  isAvailable={missionItem.checkAvailability !== 'available'}
                   content={`${missionItem.startTime} - ${missionItem.endTime}`}
                   bottom={missionItem.content} />
               ))}
@@ -49,7 +49,6 @@ const Container = styled.div`
     height: 100vh;
     overflow: auto;
     background-color: ${colors.grey200};
-    padding-top: 72px;
 `
 
 const GroupList = styled.ul`

@@ -1,3 +1,3 @@
-import MyInfoPage from '../src/pages/MyInfo';
+import MyInfoPage from '../src/pages/myInfo';
 
 export default MyInfoPage;
