@@ -7,14 +7,20 @@ export const useGroupData = () => {
   return useQuery('useGroupData', () => fetchGroupData());
 }
 
-export const useTotalGroupData = () => {
-  const groupDataState = useInfiniteQuery('useTotalGroupData', ({ pageParam = 1 }) => fetchTotalGroupData(pageParam), {
+export const useTotalGroupData = ({ search }: { search?: string } = {}) => {
+  const groupDataState = useInfiniteQuery(['useTotalGroupData', search], ({ pageParam = 1 }) => fetchTotalGroupData({ page: pageParam, search }), {
     getNextPageParam: (lastPage, allPages) => lastPage.numGroups,
   });
   const groupData = useMemo(() => {
     return groupDataState.data?.pages.flatMap(page => page.groups) ?? [];
   }, [groupDataState.data?.pages]);
+  const numGroups = useMemo(() => {
+    return groupDataState.data?.pages.reduce((curr, prev) => curr + prev.numGroups, 0);
+  }, [groupDataState.data?.pages]);
   return {
-    data: groupData,
+    data: {
+      groupData,
+      numGroups,
+    },
   }
 }

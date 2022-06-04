@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useGroupData, useTotalGroupData } from "hooks/useGroupData";
+import { useTotalGroupData } from "hooks/useGroupData";
 import { ErrorBoundary } from "react-error-boundary";
 import { colors } from "styles";
 import { GroupListItem } from "components/GroupListItem";
@@ -10,12 +10,23 @@ import { Calandar } from "components/icons/Calandar";
 import { Icon } from "components/icons/Icon";
 import { ellipsisText } from "utils/http/ellipsisText";
 import { MAX_TITLE } from "../constants";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { Padding } from "components/ui/Padding";
 
 export default function IndexPage() {
-  const { data: groupData } = useGroupData();
-  const { data: totalGroupData } = useTotalGroupData();
+  const router = useRouter();
+  const [search, setSearch] = useState<string>();
 
-  if (groupData == null || totalGroupData == null) {
+  const { data: searchData } = useTotalGroupData({ search });
+
+  useEffect(() => {
+    if (router.isReady) {
+      setSearch(String(router.query.search ?? ''));
+    }
+  }, [router.isReady, router.query.search])
+
+  if (searchData == null) {
     return null;
   }
 
@@ -28,33 +39,9 @@ export default function IndexPage() {
       )}
     >
       <Container>
-        <Header marginTop={24}>내 그룹({groupData.numGroups})</Header>
-        <GroupList>
-          {groupData.groups.map(group => (
-            <GroupListItem
-              isAvailable={group.isAvailable}
-              key={group.id}
-              imageSrc={group.thumbnailImageUrl} 
-              isPrivate={group.isPrivate}
-              top={ellipsisText(group.name, MAX_TITLE)}
-              content={group.tags.map(tag => (
-                <TagItem key={tag.id}>#{tag.name}</TagItem>
-              ))}
-              bottom={
-                <>
-                  <Text><Icon iconName={'user'} />{group.currentMember}/{group.maximumMember}</Text>
-                  <Text><Icon iconName={'calander'} />{group.runningWeeks}</Text>
-                  {group.daysLeft === 0 
-                    ? <Text>진행중</Text>
-                    : <Text color={colors.grey300}>{`시작까지 ${group.daysLeft}일 남음`}</Text>  
-                  }
-                </>
-              } />
-          ))}
-        </GroupList>
-        <Header>추천 그룹</Header>
-        <GroupList>
-          {totalGroupData.groupData.map(group => (
+        <Header>검색 결과({searchData.numGroups})</Header>
+        {searchData.groupData.length > 0 ?  <GroupList>
+          {searchData.groupData.map(group => (
             <GroupListItem 
               key={group.id} 
               imageSrc={group.thumbnailImageUrl} 
@@ -75,7 +62,13 @@ export default function IndexPage() {
                 </>
               )} />
           ))}
-        </GroupList>
+        </GroupList> :
+          <Empty>
+            <Icon iconName="alert" width="16" hegiht="16"/>
+            <Padding size={8} />
+            <Text color={colors.grey300}>검색 결과가 없습니다.</Text>
+            <Text color={colors.grey300}>다른 검색어를 입력해보세요.</Text>
+          </Empty>}
       </Container>
     </ErrorBoundary>
   )
@@ -92,4 +85,12 @@ const GroupList = styled.ul`
     >li + li {
         margin-top: 8px;
     }
+`
+
+const Empty = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding-top: 52px;
 `

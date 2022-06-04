@@ -25,7 +25,7 @@ export const GroupListItem = ({
   return (
     <ListItem {...rest}>
       <LeftAvator disabled={!isAvailable}>
-        <Image alt="" src={imageSrc} layout="fill" objectFit="cover" loading="eager"/>
+        <Image alt="" src={imageSrc ?? 'https://www.residentialsystems.com/wp-content/uploads/2020/06/2020.06.13-How-Writing-Improves-Our-Thinking.jpg'} layout="fill" objectFit="cover" loading="eager"/>
       </LeftAvator>
       <RightContainer>
         {
