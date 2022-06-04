@@ -2,6 +2,8 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['www.morninggreetings.com']
+    domains: ['www.morninggreetings.com'],
+    loader: 'akamai',
+    path: ''
   },
 }

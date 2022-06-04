@@ -12,12 +12,12 @@ export interface HttpClient extends AxiosInstance {
   }
   
 const http: HttpClient = axios.create({
-    baseURL: 'http://52.79.143.176:8000',
-    headers: {
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY0NDA3OTc3Mn0.GzgsQ5cjqpDoJAQPXTzk737RRVNilnqTI6Lc59MuqpE'
-    },
+  baseURL: 'http://3.37.172.118:8081',
+  headers: {
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY0NDA3OTc3Mn0.GzgsQ5cjqpDoJAQPXTzk737RRVNilnqTI6Lc59MuqpE'
+  },
 });
 
-http.interceptors.response.use(response => response.data.data, error => error);
+http.interceptors.response.use(response => response.data, error => error);
 
 export default http;
